@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,40 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   Alert,
 } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
+import { MenuContext } from '../context/MenuContext';
 
 
 const OWNER_USERNAME = 'owner';
 const OWNER_PASSWORD = 'pass123';
 
 const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
+  const ctx = useContext(MenuContext);
+
+  const averagePrices = useMemo(() => {
+    if (!ctx?.menu) {
+      return { starter: 0, main: 0, dessert: 0, drink: 0 };
+    }
+
+    const courses = ['Starter', 'Main', 'Dessert', 'Drink'];
+    const averages: { [key: string]: number } = {};
+
+    for (const course of courses) {
+      const items = ctx.menu.filter(item => item.course === course);
+      if (items.length > 0) {
+        const total = items.reduce((sum, item) => sum + item.price, 0);
+        averages[course.toLowerCase()] = total / items.length;
+      } else {
+        averages[course.toLowerCase()] = 0;
+      }
+    }
+
+    return averages;
+  }, [ctx?.menu]);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -47,47 +72,62 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        {/* Logo */}
-        <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode="stretch" />
+        <ScrollView contentContainerStyle={styles.scrollContentContainer} showsVerticalScrollIndicator={false}>
+          {/* Logo */}
+          <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode="stretch" />
 
-        {/* Steak image */}
-        <Image source={require('../assets/images/steak_home.jpg')} style={styles.steak} resizeMode="cover" />
+          {/* Steak image */}
+          <Image source={require('../assets/images/steak_home.jpg')} style={styles.steak} resizeMode="cover" />
 
-        {/* Login form */}
-        <View style={styles.formContainer}>
-          <View style={styles.inputRow}>
-            <Text style={styles.label}>Username:</Text>
-            <TextInput
-              placeholder="Enter username"
-              value={username}
-              onChangeText={setUsername}
-              style={styles.input}
-              autoCapitalize="none"
-            />
+          {/* Average Prices */}
+          <View style={styles.averagePricesContainer}>
+            <Text style={styles.averagePricesTitle}>Average Menu Prices</Text>
+            <View style={styles.priceRow}>
+              <Text style={styles.priceText}>Starters: R{averagePrices.starter.toFixed(2)}</Text>
+              <Text style={styles.priceText}>Mains: R{averagePrices.main.toFixed(2)}</Text>
+            </View>
+            <View style={styles.priceRow}>
+              <Text style={styles.priceText}>Desserts: R{averagePrices.dessert.toFixed(2)}</Text>
+              <Text style={styles.priceText}>Drinks: R{averagePrices.drink.toFixed(2)}</Text>
+            </View>
           </View>
 
-          <View style={styles.inputRow}>
-            <Text style={styles.label}>Password:</Text>
-            <TextInput
-              placeholder="Enter password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              style={styles.input}
-            />
-          </View>
 
-          <TouchableOpacity style={styles.loginBtn} onPress={onLogin}>
-            <Text style={styles.loginText}>Confirm</Text>
+
+          {/* Login form */}
+          <View style={styles.formContainer}>
+            <View style={styles.inputRow}>
+              <Text style={styles.label}>Username:</Text>
+              <TextInput
+                placeholder="Enter username"
+                value={username}
+                onChangeText={setUsername}
+                style={styles.input}
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.inputRow}>
+              <Text style={styles.label}>Password:</Text>
+              <TextInput
+                placeholder="Enter password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                style={styles.input}
+              />
+            </View>
+
+            <TouchableOpacity style={styles.loginBtn} onPress={onLogin}>
+              <Text style={styles.loginText}>Confirm</Text>
+            </TouchableOpacity>
+            
+          {/* Help icon bottom-right */}
+          <TouchableOpacity style={styles.helpBtn} onPress={onHelp}>
+         <Entypo name="help-with-circle" size={22} color="white" />
           </TouchableOpacity>
-          
-        {/* Help icon bottom-right */}
-        <TouchableOpacity style={styles.helpBtn} onPress={onHelp}>
-       <Entypo name="help-with-circle" size={22} color="white" />
-        </TouchableOpacity>
-        </View>
-
-       
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -101,10 +141,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  scrollContentContainer: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
     paddingTop: 0,
+    paddingBottom: 20,
   },
   logo: {
     width: 400,
@@ -115,6 +158,32 @@ const styles = StyleSheet.create({
     width: 400,
     height: 250,
     marginBottom: 10,
+  },
+  averagePricesContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    width: '90%',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  averagePricesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 8,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  priceText: {
+    color: '#fff',
+    fontSize: 15,
+    flex: 1,
+    textAlign: 'center',
   },
   formContainer: {
     backgroundColor: 'rgba(135, 135, 135, 0.95)',
