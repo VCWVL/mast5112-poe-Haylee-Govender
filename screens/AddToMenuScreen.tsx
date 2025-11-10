@@ -74,10 +74,10 @@ export default function AddToMenuScreen({ navigation }: any) {
       <ScrollView contentContainerStyle={styles.container}>
        
 
-        <Text style={styles_v2.label}>Dish Name</Text>
+        <Text style={styles.label}>Dish Name</Text>
         <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="e.g. Classic Burger" />
 
-        <Text style={styles_v2.label}>Description</Text>
+        <Text style={styles.label}>Description</Text>
         <TextInput
           style={[styles.input, styles.multiline]}
           value={description}
@@ -86,7 +86,7 @@ export default function AddToMenuScreen({ navigation }: any) {
           placeholder="e.g. A juicy beef patty with fresh lettuce..."
         />
 
-        <Text style={styles_v2.label}>Course Type</Text>
+        <Text style={styles.label}>Course Type</Text>
         <View style={styles.pickerWrap}>
           <Picker selectedValue={course} onValueChange={(v) => setCourse(v)}>
             <Picker.Item label="Starter" value="Starter" />
@@ -96,7 +96,7 @@ export default function AddToMenuScreen({ navigation }: any) {
           </Picker>
         </View>
 
-        <Text style={styles_v2.label}>Price (R)</Text>
+        <Text style={styles.label}>Price (R)</Text>
         <TextInput
           style={styles.input}
           value={price}
@@ -105,7 +105,7 @@ export default function AddToMenuScreen({ navigation }: any) {
           placeholder="e.g. 120"
         />
 
-        <Text style={styles_v2.label}>Image URL (Optional)</Text>
+        <Text style={styles.label}>Image URL (Optional)</Text>
         <TextInput style={styles.input} value={imageUrl} onChangeText={setImageUrl} placeholder="https://example.com/image.jpg" />
 
         <View style={styles.buttonRow}>
@@ -126,6 +126,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: { padding: 16, backgroundColor: 'rgba(0,0,0,0.6)', flexGrow: 1 },
+  label: { 
+    marginTop: 12, 
+    color: '#ffffffff', 
+    fontSize: 16, 
+    fontWeight: '600' 
+  },
   input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 6, padding: 10, backgroundColor: '#fff', marginTop: 5, fontSize: 16 },
   multiline: { height: 80, textAlignVertical: "top" },
   pickerWrap: { borderWidth: 1, borderColor: "#ccc", borderRadius: 6, backgroundColor: '#fff', marginTop: 5 },
@@ -143,27 +149,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   backButton: {
-     position: 'absolute',
-    bottom: 5,
-    left: 5,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DC143C',
     borderRadius: 25,
     paddingHorizontal: 16,
     paddingVertical: 8,
-
-   
-    
   }
-});
-
-// Separate styles for labels to avoid conflicts with picker label styles on some platforms
-const styles_v2 = StyleSheet.create({
-    label: { 
-        marginTop: 12, 
-        color: '#ffffffff', 
-        fontSize: 16, 
-        fontWeight: '600' 
-    },
 });

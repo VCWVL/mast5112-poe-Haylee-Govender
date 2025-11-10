@@ -126,15 +126,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   backButton: {
-    // Style to align with the other button
-      position: 'absolute',
-    top:200,
-    left: 20,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#DC143C',
     borderRadius: 25,
     paddingHorizontal: 16,
     paddingVertical: 8,
+    elevation: 3,
   },
 });
