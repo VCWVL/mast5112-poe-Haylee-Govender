@@ -193,17 +193,17 @@ Changelog:
 
 Changelog Poe : 
 
-10 Nov 2025 - Edited due to feedback to include references.
+10 Nov 2025 - Part 2 Pushed to guthub new link.
 
-10 Nov 2025 -
+10 Nov 2025 - Added average prices to homepage.
 
-10 Nov 2035 - 
+10 Nov 2025 - Array added - Changed the add and remove to include the array.
 
 11 Nov 2025 - Added comments throughout code. 
 
-11 Nov 2025 - Edited styles for welcome screen.
+11 Nov 2025 - updated Welcome screen layout - Edited styles for welcome screen.
 
-11 Nov 2025 - Added all references to sites which was used.
+11 Nov 2025 - Added all references to sites which was used due to feeback from part 2 to include it.
 
 Developed by: Haylee Govender
 
