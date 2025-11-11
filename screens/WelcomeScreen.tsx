@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Animated,
+  Easing,
   Alert,
 } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -80,6 +82,38 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
     navigation?.navigate?.('Help');
   };
 
+  // State and animation for the scroll-down indicator
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    // Create a looping fade in/out animation for the indicator
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0.2,
+          duration: 1000,
+          useNativeDriver: true,
+          easing: Easing.inOut(Easing.ease),
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+          easing: Easing.inOut(Easing.ease),
+        }),
+      ])
+    );
+    animation.start();
+    return () => animation.stop();
+  }, [fadeAnim]);
+
+  const handleScroll = (event: any) => {
+    if (showScrollIndicator && event.nativeEvent.contentOffset.y > 50) {
+      setShowScrollIndicator(false);
+    }
+  };
+
   return (
     // Main background for the screen.
     <ImageBackground
@@ -91,7 +125,11 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <ScrollView contentContainerStyle={styles.scrollContentContainer} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContentContainer}
+          showsVerticalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}>
           {/* Restaurant Logo */}
           <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode="stretch" />
 
@@ -101,14 +139,10 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
           {/* Display container for average menu prices. */}
           <View style={styles.averagePricesContainer}>
             <Text style={styles.averagePricesTitle}>Average Menu Prices</Text>
-            <View style={styles.priceRow}>
-              <Text style={styles.priceText}>Starters: R{averagePrices.starter.toFixed(2)}</Text>
-              <Text style={styles.priceText}>Mains: R{averagePrices.main.toFixed(2)}</Text>
-            </View>
-            <View style={styles.priceRow}>
-              <Text style={styles.priceText}>Desserts: R{averagePrices.dessert.toFixed(2)}</Text>
-              <Text style={styles.priceText}>Drinks: R{averagePrices.drink.toFixed(2)}</Text>
-            </View>
+            <Text style={styles.priceText}>Starters: R{averagePrices.starter.toFixed(2)}</Text>
+            <Text style={styles.priceText}>Mains: R{averagePrices.main.toFixed(2)}</Text>
+            <Text style={styles.priceText}>Desserts: R{averagePrices.dessert.toFixed(2)}</Text>
+            <Text style={styles.priceText}>Drinks: R{averagePrices.drink.toFixed(2)}</Text>
           </View>
 
 
@@ -147,6 +181,15 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
           </TouchableOpacity>
           </View>
         </ScrollView>
+        {showScrollIndicator && (
+          <Animated.View style={[styles.scrollIndicator, { opacity: fadeAnim }]}>
+            <Text style={styles.scrollIndicatorText}>Scroll Down</Text>
+            <Entypo name="chevron-down" size={24} color="#fff" />
+          </Animated.View>
+        )}
+
+
+
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -170,19 +213,20 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 400,
-    height: 180,
+    height: 200,
     marginBottom: 0,
   },
   steak: {
-    width: 400,
-    height: 250,
+    width: 370,
+    height: 270,
     marginBottom: 10,
+    paddingVertical: 5,
   },
   averagePricesContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: 'rgba(1, 132, 106, 0.6)',
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderRadius: 10,
+    borderRadius: 8,
     width: '90%',
     alignItems: 'center',
     marginBottom: 10,
@@ -190,23 +234,19 @@ const styles = StyleSheet.create({
   averagePricesTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#000000ff',
     marginBottom: 8,
   },
-  priceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
   priceText: {
-    color: '#fff',
-    fontSize: 15,
-    flex: 1,
+    color: '#000000ff',
+    fontSize: 16,
     textAlign: 'center',
+    paddingVertical: 2,
+    fontWeight: 'medium',
   },
   formContainer: {
     backgroundColor: 'rgba(135, 135, 135, 0.95)',
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 10,
     width: '90%',
@@ -264,6 +304,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
     
+  },
+  scrollIndicator: {
+    position: 'absolute',
+    bottom: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  scrollIndicatorText: {
+    color: '#fff',
+    fontSize: 12,
+    marginBottom: -5,
   },
 });
 
