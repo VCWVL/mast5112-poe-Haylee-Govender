@@ -9,27 +9,43 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 type Props = StackScreenProps<any, "Filter">;
 
+/**
+ * FilterScreen allows users to view menu items filtered by a specific course.
+ * It displays a list of items for the selected course (e.g., Starters, Mains)
+ * and allows users to add items directly to their order from this screen.
+ */
 export default function FilterScreen({ navigation }: Props) {
+  // Access menu and order data from the global context.
   const ctx = useContext(MenuContext);
   if (!ctx) throw new Error("MenuContext missing");
 
+  // Get the current number of items in the order to display on the badge.
   const orderCount = ctx.order.length;
+  // State to manage the currently selected course for filtering.
   const [course, setCourse] = useState<CourseType>("Starter");
 
+  // Memoized list of menu items that updates only when the menu or selected course changes.
   const filtered = useMemo(() => ctx.menu.filter((m) => m.course === course), [ctx.menu, course]);
 
+  /**
+   * Renders a single menu item in the FlatList.
+   * @param {object} { item } - The menu item to render.
+   */
   const renderItem = ({ item }: { item: MenuItem }) => (
     <View style={styles.item}>
+      {/* Display the item's image or a placeholder if no image is available. */}
       {item.imageUrl ? (
         <Image source={item.imageUrl} style={styles.image} resizeMode="cover" />
       ) : (
         <View style={[styles.image, styles.placeholder]}><Text>Image</Text></View>
       )}
+      {/* Container for the item's details. */}
       <View style={styles.info}>
         <Text style={styles.name}>{item.name}</Text>
         <Text numberOfLines={2}>{item.description}</Text>
         <Text style={styles.price}>R{item.price.toFixed(2)}</Text>
       </View>
+      {/* Button to add the item to the order. */}
       <TouchableOpacity onPress={() => ctx.addToOrder(item)}>
         <Ionicons name="add-circle-sharp" size={22} color="crimson" />
       </TouchableOpacity>
@@ -37,15 +53,17 @@ export default function FilterScreen({ navigation }: Props) {
   );
 
   return (
+      // Main background for the screen.
       <ImageBackground
           source={require('../assets/images/main_Background.jpg')}
           style={styles.bg}
           resizeMode="cover"
         >
 
-   
+      {/* Screen Title */}
       <Text style={styles.title}>Filter Menu</Text>
 
+      {/* Picker for selecting the course to filter by. */}
       <View style={styles.pickerWrap}>
         <Picker selectedValue={course} onValueChange={(v) => setCourse(v as CourseType)}>
           <Picker.Item label="Starters" value="Starter" />
@@ -55,6 +73,7 @@ export default function FilterScreen({ navigation }: Props) {
         </Picker>
       </View>
 
+      {/* List of filtered menu items. */}
       <FlatList
         style={{ marginTop: 12 }}
         data={filtered}
@@ -63,8 +82,9 @@ export default function FilterScreen({ navigation }: Props) {
         ListEmptyComponent={<Text style={{ padding: 12 }}>No items in this category.</Text>}
       />
 
+      {/* Container for floating action buttons at the bottom. */}
       <View style={styles.buttonRow}>
-        {/* VIEW ORDER BUTTON WITH BADGE */}
+        {/* Floating button to navigate to the Order Details screen, with a badge for item count. */}
         <TouchableOpacity
           style={styles.viewOrderBtn}
           onPress={() => navigation?.navigate?.("OrderDetails")}
@@ -76,9 +96,11 @@ export default function FilterScreen({ navigation }: Props) {
             </View>
           )}
         </TouchableOpacity>
+        {/* Floating button to navigate to the Help screen. */}
         <TouchableOpacity style={styles.helpBtn} onPress={() => navigation.navigate("Help")}>
           <Entypo name="help-with-circle" size={22} color="white" />
         </TouchableOpacity>
+        {/* Floating button to navigate back to the previous screen. */}
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
           <Entypo name="arrow-with-circle-left" size={20} color="white" />
         </TouchableOpacity>

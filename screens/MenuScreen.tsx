@@ -16,8 +16,16 @@ import { MenuContext, MenuItem } from "../context/MenuContext";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+/**
+ * MenuScreen displays the full restaurant menu, categorized by course.
+ * It allows users to view dishes, see their details, and add them to an order.
+ * Each course section has an interactive image that updates when a dish is tapped.
+ */
 const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => { 
+  // Access menu data and order functions from the global context.
   const ctx = useContext(MenuContext);
+
+  // State to manage which image is displayed for each course section.
   const [selectedImages, setSelectedImages] = useState({
     starters: require("../assets/images/starters.jpg"),
     mains: require("../assets/images/main.jpg"),
@@ -25,13 +33,23 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
     drinks: require("../assets/images/drinks.jpg"),
   });
 
-  // Use a ref to store multiple animation values, one for each item
+  // A ref to store animation values for each menu item's 'add' icon.
+  // This allows each icon to have its own independent animation state.
   const scaleAnims = useRef<{ [key: string]: Animated.Value }>({}).current;
 
+  /**
+   * Updates the displayed image for a given menu section when a user taps on a dish.
+   * @param section The course section (e.g., 'starters', 'mains').
+   * @param image The image URL of the tapped dish.
+   */
   const handleDishPress = (section: keyof typeof selectedImages, image: any) => {
     setSelectedImages((prev) => ({ ...prev, [section]: image }));
   };
 
+  /**
+   * Adds a menu item to the order and triggers a brief scaling animation on the 'add' icon.
+   * @param item The MenuItem object to add to the order.
+   */
   const handleAddToOrder = (item: MenuItem) => {
     // Ensure an Animated.Value exists for this item
     if (!scaleAnims[item.id]) {
@@ -39,7 +57,7 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
     }
     const scaleAnim = scaleAnims[item.id];
 
-    // animate icon
+    // Trigger a 'pop' animation on the icon to give user feedback.
     Animated.sequence([
       Animated.timing(scaleAnim, { toValue: 1.4, duration: 100, useNativeDriver: true }),
       Animated.timing(scaleAnim, { toValue: 1, duration: 100, useNativeDriver: true }),
@@ -56,19 +74,20 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
     return <View style={styles.container}><Text>Loading menu...</Text></View>;
   }
 
+  // Get the current number of items in the order for the badge.
   const orderCount = ctx.order.length;
 
   return (
-    
+    // Main background for the screen.
     <ImageBackground
       source={require("../assets/images/main_Background.jpg")}
       style={styles.bg}
       resizeMode="cover"
     >
-      
+      {/* SafeAreaView ensures content is not obscured by device notches or status bars. */}
       <SafeAreaView style={styles.container}>
        <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.scrollContainer}>
-        {/* Filter Icon */}
+        {/* Floating icon to navigate to the Filter screen. */}
         <TouchableOpacity
           style={styles.filterIcon}
           onPress={() => navigation?.navigate?.("Filter")}
@@ -76,17 +95,19 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
           <FontAwesome5 name="filter" size={35} color="#DC143C" />
         </TouchableOpacity>
 
+        {/* Header image for the menu screen. */}
         <Image
           source={require("../assets/images/menu_background.jpg")}
           style={styles.headerImage}
           width={400}
         />
 
+        {/* Informational text showing the current menu number and total dishes. */}
         <Text style={styles.menuInfo}>
          Currently Viewing: Menu {ctx.currentMenu} | Total Dishes: {ctx.menu.length}
         </Text>
  
-          {/* Helper render function */}
+          {/* Dynamically render a section for each course type. */}
           {["Starter", "Main", "Dessert", "Drink"].map((type) => {
             const items = ctx.menu.filter((m) => m.course === type);
             const key = type.toLowerCase() + "s" as keyof typeof selectedImages;
@@ -94,10 +115,12 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
               <View key={type} style={styles.section}>
                 <Text style={styles.sectionTitle}>{type.toUpperCase()}S</Text>
                 <View style={styles.sectionContent}>
+                  {/* Left column: List of dishes for the current course. */}
                   <View style={styles.leftColumn}>
                     {items.length > 0 ? (
                       items.map((item) => (
                         <View key={item.id} style={styles.dishBlock}>
+                          {/* Tappable area for dish info, which updates the section image. */}
                           <TouchableOpacity
                             style={styles.dishInfo}
                             onPress={() =>
@@ -111,7 +134,7 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
                             </View>
                             <Text style={styles.dishDesc}>{item.description}</Text>
                           </TouchableOpacity>
-                          {/* Separate TouchableOpacity for the add icon to prevent nesting issues */}
+                          {/* Tappable icon to add the item to the order. */}
                           <View>
                             <TouchableOpacity onPress={() => handleAddToOrder(item)}>
                               <Animated.View style={{ transform: [{ scale: scaleAnims[item.id] || 1 }] }}>
@@ -128,6 +151,7 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
                     )}
                   </View>
 
+                  {/* Right column: Displays the image of the selected dish. */}
                   <Image
                     source={selectedImages[key] || require("../assets/icon.png")}
                     style={styles.sectionImage}
@@ -139,7 +163,7 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
           })}
         </ScrollView>
 
-        {/* VIEW ORDER BUTTON WITH BADGE */}
+        {/* Floating button to navigate to the Order Details screen, with a badge for item count. */}
         <TouchableOpacity
           style={styles.viewOrderBtn}
           onPress={() => navigation?.navigate?.("OrderDetails")}
@@ -152,7 +176,7 @@ const MenuScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
           )}
         </TouchableOpacity>
 
-        {/* HELP ICON */}
+        {/* Floating button to navigate to the Help screen. */}
         <TouchableOpacity
           style={styles.helpBtn}
           onPress={() => navigation?.navigate?.("Help")}

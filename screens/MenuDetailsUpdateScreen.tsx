@@ -2,18 +2,26 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView ,ImageBackground} from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 
+/**
+ * MenuDetailsUpdateScreen serves as the main dashboard for the owner/admin.
+ * It provides navigation to various menu management functionalities like
+ * viewing, adding, removing, and resetting the menu.
+ */
 const MenuDetailsUpdateScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
   return (
+        // Main background for the screen.
         <ImageBackground
           source={require("../assets/images/main_Background.jpg")}
           style={styles.bg}
           resizeMode="cover"
         >
 
+      {/* Screen Title */}
       <Text style={styles.title}>Menu Details & Update</Text>
 
-      {/* Four Main Buttons */}
+      {/* Container for the main action buttons. */}
       <View style={styles.btnContainer}>
+        {/* Button to navigate to the public-facing Menu screen. */}
         <TouchableOpacity
           style={styles.actionBtn}
           onPress={() => navigation?.navigate?.('Menu')}
@@ -21,6 +29,7 @@ const MenuDetailsUpdateScreen: React.FC<{ navigation?: any }> = ({ navigation })
           <Text style={styles.btnText}>View Menu</Text>
         </TouchableOpacity>
 
+        {/* Button to navigate to the Add to Menu screen. */}
         <TouchableOpacity
           style={styles.actionBtn}
           onPress={() => navigation?.navigate?.('AddToMenu')}
@@ -28,6 +37,7 @@ const MenuDetailsUpdateScreen: React.FC<{ navigation?: any }> = ({ navigation })
           <Text style={styles.btnText}>Add to Menu</Text>
         </TouchableOpacity>
 
+        {/* Button to navigate to the Remove from Menu screen. */}
         <TouchableOpacity
           style={styles.actionBtn}
           onPress={() => navigation?.navigate?.('RemoveFromMenu')}
@@ -35,6 +45,7 @@ const MenuDetailsUpdateScreen: React.FC<{ navigation?: any }> = ({ navigation })
           <Text style={styles.btnText}>Remove from Menu</Text>
         </TouchableOpacity>
 
+        {/* Button to navigate to the Reset Menu screen. */}
         <TouchableOpacity
           style={styles.actionBtn}
           onPress={() => navigation?.navigate?.('ResetConfirmation')}
@@ -43,7 +54,7 @@ const MenuDetailsUpdateScreen: React.FC<{ navigation?: any }> = ({ navigation })
         </TouchableOpacity>
       </View>
 
-      {/* Back Button */}
+      {/* Floating back button to return to the previous screen (Welcome screen). */}
       <TouchableOpacity style={styles.backBtn} onPress={() => navigation?.goBack?.()}>
         <Entypo name="arrow-with-circle-left" size={20} color="white" />
        

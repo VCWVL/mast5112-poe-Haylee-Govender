@@ -3,10 +3,22 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert, ImageBackground } from
 import { MenuContext } from "../context/MenuContext";
 import Entypo from '@expo/vector-icons/Entypo';
 
+/**
+ * ResetConfirmationScreen allows the owner to switch between different predefined menus.
+ * The user selects one of the available menus (e.g., Menu 1, 2, or 3) and confirms
+ * the switch, which updates the application's active menu via the MenuContext.
+ */
 export default function ResetConfirmationScreen({ navigation }: any) {
+  // Access the menu context to call the menu switching function.
   const ctx = useContext(MenuContext);
+  // State to keep track of which menu (1, 2, or 3) is currently selected by the user.
   const [selectedMenu, setSelectedMenu] = useState<number | null>(null);
 
+  /**
+   * Handles the confirmation of the menu switch.
+   * It validates that a menu has been selected, then calls the context function
+   * to switch the menu and navigates back to the owner's menu management screen.
+   */
   const confirmReset = () => {
     if (!ctx) {
       Alert.alert("Error", "Menu context is not available.");
@@ -24,6 +36,7 @@ export default function ResetConfirmationScreen({ navigation }: any) {
   };
 
   return (
+    // Main background for the screen.
     <ImageBackground
       source={require('../assets/images/main_Background.jpg')}
       style={styles.bg}
@@ -33,6 +46,7 @@ export default function ResetConfirmationScreen({ navigation }: any) {
         <Text style={styles.title}>Switch Menu</Text>
         <Text style={styles.subtitle}>Choose which menu to load:</Text>
 
+        {/* Container for the menu selection buttons. */}
         <View style={styles.choiceRow}>
           <TouchableOpacity
             style={[styles.menuButton, selectedMenu === 1 && styles.selectedButton]}
@@ -54,11 +68,14 @@ export default function ResetConfirmationScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
 
+        {/* Container for the main action buttons. */}
         <View style={styles.buttonRow}>
           <TouchableOpacity style={[styles.actionButton, styles.confirmButton]} onPress={confirmReset}>
             <Text style={styles.actionButtonText}>Confirm</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Floating back button. */}
         <TouchableOpacity style={styles.backButtonIcon} onPress={() => navigation.goBack()}>
           <Entypo name="arrow-with-circle-left" size={20} color="#ffffffff" />
         </TouchableOpacity>

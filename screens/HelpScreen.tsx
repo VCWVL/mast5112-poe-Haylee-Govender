@@ -6,21 +6,44 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 type Props = StackScreenProps<any, "Help">;
 
+/**
+ * HelpScreen provides a form for users to send a help request or query.
+ * It collects the user's name, contact details (phone or email), and a message,
+ * then simulates sending this information.
+ */
 export default function HelpScreen({ navigation }: Props) {
+  // State for the user's full name input.
   const [fullName, setFullName] = useState("");
+  // State for the user's contact details (phone or email) input.
   const [contact, setContact] = useState("");
+  // State for the user's message input.
   const [message, setMessage] = useState("");
 
+  /**
+   * Validates if the provided string is a valid email format.
+   * @param email The email string to validate.
+   * @returns True if the email is valid, false otherwise.
+   */
   const isValidEmail = (email: string) => {
     // A simple regex for email validation
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  /**
+   * Validates if the provided string is a plausible phone number format.
+   * @param phone The phone number string to validate.
+   * @returns True if the phone number is valid, false otherwise.
+   */
   const isValidPhone = (phone: string) => {
     // A simple regex for phone number validation (allows for digits, spaces, and some special chars)
     return /^\+?[\d\s-()]{7,15}$/.test(phone);
   };
 
+  /**
+   * Handles the submission of the help form.
+   * It validates the inputs, shows a confirmation alert on success,
+   * clears the form fields, and navigates back to the Welcome screen.
+   */
   const onSend = () => {
     if (!fullName.trim() || !contact.trim() || !message.trim()) {
       Alert.alert("Please complete all fields");
@@ -30,7 +53,7 @@ export default function HelpScreen({ navigation }: Props) {
       Alert.alert("Invalid Contact", "Please enter a valid phone number or email address.");
       return;
     }
-    // In a real app you'd send this to backend. Here we show confirmation.
+    // In a real app you'd send this to a backend. Here we show confirmation.
     Alert.alert("Sent", "Your query has been sent to the restaurant.");
     setFullName("");
     setContact("");
@@ -39,32 +62,37 @@ export default function HelpScreen({ navigation }: Props) {
   };
 
   return (
-
+      // Main background for the screen.
       <ImageBackground
           source={require('../assets/images/main_Background.jpg')}
           style={styles.bg}
           resizeMode="cover"
         >
 
+  {/* Container with a semi-transparent background for the form elements. */}
   <View style={styles.container}>
       <Text style={styles.title}>Customer Assistance</Text>
 
+      {/* Input for the user's full name. */}
       <Text style={styles.label}>Full Name</Text>
       <TextInput style={styles.input} value={fullName} onChangeText={setFullName} placeholder="Full name" />
 
+      {/* Input for the user's contact details. */}
       <Text style={styles.label}>Contact Details</Text>
       <TextInput style={styles.input} value={contact} onChangeText={setContact} placeholder="Phone or email" />
 
+      {/* Text area for the user's message. */}
       <Text style={styles.label}>Message</Text>
       <TextInput style={[styles.input, styles.multiline]} value={message} onChangeText={setMessage} placeholder="What do you need help with?" multiline numberOfLines={4} />
 
+      {/* Container for the main action button. */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.sendButton} onPress={onSend}>
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
       </View>
       
-      {/* Back Button */}
+      {/* Floating back button to return to the previous screen. */}
       <TouchableOpacity style={styles.backBtn} onPress={() => navigation?.goBack?.()}>
         <Entypo name="arrow-with-circle-left" size={20} color="white" />
       </TouchableOpacity>

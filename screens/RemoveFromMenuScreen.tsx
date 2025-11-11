@@ -4,10 +4,17 @@ import { Picker } from "@react-native-picker/picker";
 import { MenuContext, CourseType } from "../context/MenuContext";
 import Entypo from '@expo/vector-icons/Entypo';
 
-
+/**
+ * RemoveFromMenuScreen provides an interface for the owner to remove an item from the menu.
+ * It uses two pickers: one to select the course (e.g., Starter, Main) and another
+ * to select the specific item from that course to be removed.
+ */
 export default function RemoveFromMenuScreen({ navigation }: any) {
+  // Access the menu context to get the menu list and the remove function.
   const ctx = useContext(MenuContext);
+  // State to manage the currently selected course type.
   const [course, setCourse] = useState<CourseType>("Starter");
+  // State to hold the ID of the menu item selected for removal.
   const [selectedId, setSelectedId] = useState<string | null>(null);
   
   // Gracefully handle case where context might be undefined
@@ -15,14 +22,25 @@ export default function RemoveFromMenuScreen({ navigation }: any) {
     return <View style={styles.container}><Text>Loading...</Text></View>;
   }
   
+  // Filter the menu items based on the currently selected course.
   const items = ctx.menu.filter((m) => m.course === course);
   
+  /**
+   * Updates the course state and resets the selected item ID
+   * whenever the user chooses a new course from the picker.
+   * @param newCourse The new course type selected by the user.
+   */
   const handleCourseChange = (newCourse: CourseType) => {
     setCourse(newCourse);
     // Reset selected item when course changes
     setSelectedId(null);
   };
   
+  /**
+   * Handles the removal of the selected menu item.
+   * It validates that an item is selected, calls the context's remove function,
+   * shows a confirmation alert, and navigates back.
+   */
   const handleRemove = () => {
     if (!selectedId) {
       Alert.alert("No Selection", "Please choose an item to remove.");
@@ -37,6 +55,7 @@ export default function RemoveFromMenuScreen({ navigation }: any) {
   };
 
   return (
+    // Main background for the screen.
     <ImageBackground
       source={require('../assets/images/main_Background.jpg')}
       style={styles.bg}
@@ -46,6 +65,7 @@ export default function RemoveFromMenuScreen({ navigation }: any) {
         <Text style={styles.title}>Select item to remove</Text>
 
         <Text style={styles.label}>Course</Text>
+        {/* Picker for selecting the course category. */}
         <View style={styles.pickerWrap}>
           <Picker selectedValue={course} onValueChange={(v) => handleCourseChange(v)}>
             <Picker.Item label="Starter" value="Starter" />
@@ -56,6 +76,7 @@ export default function RemoveFromMenuScreen({ navigation }: any) {
         </View>
 
         <Text style={styles.label}>Item</Text>
+        {/* Picker for selecting the specific item to remove from the chosen course. */}
         <View style={styles.pickerWrap}>
           <Picker selectedValue={selectedId} onValueChange={(v) => setSelectedId(v)}>
             <Picker.Item label="-- Select an item --" value={null} />
@@ -65,6 +86,7 @@ export default function RemoveFromMenuScreen({ navigation }: any) {
           </Picker>
         </View>
 
+        {/* Container for action buttons. */}
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.removeButton} onPress={handleRemove}>
             <Text style={styles.removeButtonText}>Remove</Text>

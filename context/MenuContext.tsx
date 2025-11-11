@@ -1,34 +1,37 @@
 // src/context/MenuContext.tsx
 import React, { createContext, useState, ReactNode } from "react";
 
+// Defines the possible course categories for a menu item.
 export type CourseType = "Starter" | "Main" | "Dessert" | "Drink";
 
+// Defines the structure of a single menu item.
 export type MenuItem = {
   id: string;
   name: string;
   description: string;
   price: number;
   course: CourseType;
-  imageUrl?: any; // Allow for require() and { uri: ... }
+  imageUrl?: any; // Allows for both `require()` and `{ uri: ... }` formats for images.
 };
 
+// Defines the shape of the context's value, including state and action functions.
 type MenuContextType = {
-  menu: MenuItem[];
-  currentMenu: number;
-  switchMenu: (menuNumber: number) => void;
-  addMenuItem: (item: Omit<MenuItem, "id">) => void;
-  removeMenuItem: (id: string) => void;
-  order: MenuItem[];
-  addToOrder: (item: MenuItem) => void;
-  clearOrder: () => void;
-  removeFromOrder: (id: string) => void;
+  menu: MenuItem[]; // The current array of menu items being displayed.
+  currentMenu: number; // The identifier for the currently active menu (e.g., 1, 2, or 3).
+  switchMenu: (menuNumber: number) => void; // Function to switch between predefined menus.
+  addMenuItem: (item: Omit<MenuItem, "id">) => void; // Function to add a new item to the current menu.
+  removeMenuItem: (id: string) => void; // Function to remove an item from the menu by its ID.
+  order: MenuItem[]; // The array of menu items currently in the user's order.
+  addToOrder: (item: MenuItem) => void; // Function to add an item to the order.
+  clearOrder: () => void; // Function to clear all items from the order.
+  removeFromOrder: (id: string) => void; // Function to remove a single item from the order.
 };
 
+// Creates the React Context for the menu. This will be used by consumers to access the context value.
 export const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
-//
-// --------------------------- MENU 1 ---------------------------
-//
+// --------------------------- MENU 1 DATA ---------------------------
+// Predefined data for the first menu option.
 const menu1: MenuItem[] = [
   // Starters
   { id: "1", name: "Marrow Bones", description: "Oven-roasted with croutes.", price: 110, course: "Starter", imageUrl: require("../assets/images/marrow.jpg") },
@@ -46,9 +49,8 @@ const menu1: MenuItem[] = [
   { id: "10", name: "Pineapple / Cranberry Juice", description: "Sweet and tropical.", price: 35, course: "Drink", imageUrl: require("../assets/images/Juice.jpg") },
 ];
 
-//
-// --------------------------- MENU 2 ---------------------------
-//
+// --------------------------- MENU 2 DATA ---------------------------
+// Predefined data for the second menu option.
 const menu2: MenuItem[] = [
   // Starters
   { id: "11", name: "Garlic Bread", description: "Toasted baguette with garlic butter.", price: 65, course: "Starter", imageUrl: require("../assets/images/garlic_bread.jpg") },
@@ -66,9 +68,8 @@ const menu2: MenuItem[] = [
   { id: "20", name: "Iced Tea", description: "Chilled lemon iced tea.", price: 40, course: "Drink", imageUrl: require("../assets/images/iced_tea.jpg") },
 ];
 
-//
-// --------------------------- MENU 3 ---------------------------
-//
+// --------------------------- MENU 3 DATA ---------------------------
+// Predefined data for the third menu option.
 const menu3: MenuItem[] = [
   // Starters
   { id: "21", name: "Caprese Salad", description: "Mozzarella, tomato & basil with olive oil.", price: 95, course: "Starter", imageUrl: require("../assets/images/caprese.jpg") },
@@ -86,36 +87,57 @@ const menu3: MenuItem[] = [
   { id: "30", name: "Lemonade", description: "Freshly squeezed homemade lemonade.", price: 35, course: "Drink", imageUrl: require("../assets/images/lemonade.jpg") },
 ];
 
-//
-// --------------------------- PROVIDER ---------------------------
-//
+/**
+ * MenuProvider is a component that wraps parts of the app that need access to menu and order state.
+ * It manages the state for the menu, the current order, and provides functions to modify them.
+ */
 export const MenuProvider = ({ children }: { children: ReactNode }) => {
+  // State for the active menu items. Defaults to menu1.
   const [menu, setMenu] = useState<MenuItem[]>(menu1);
+  // State to track which menu (1, 2, or 3) is currently active.
   const [currentMenu, setCurrentMenu] = useState<number>(1);
+  // State for the user's current order.
   const [order, setOrder] = useState<MenuItem[]>([]);
 
+  /**
+   * Switches the active menu to the selected menu number and clears the current order.
+   * @param menuNumber The number of the menu to switch to (1, 2, or 3).
+   */
   const switchMenu = (menuNumber: number) => {
     if (menuNumber === 1) setMenu(menu1);
     if (menuNumber === 2) setMenu(menu2);
     if (menuNumber === 3) setMenu(menu3);
     setCurrentMenu(menuNumber);
-    setOrder([]);
+    setOrder([]); // Clear order when switching menus to avoid confusion.
   };
 
+  /**
+   * Adds a new item to the currently active menu.
+   * @param item The menu item data to add, without an ID.
+   */
   const addMenuItem = (item: Omit<MenuItem, "id">) => {
+    // Generate a unique ID based on the current timestamp.
     const newItem = { ...item, id: Date.now().toString() };
     setMenu((prev) => [...prev, newItem]);
   };
 
+  /**
+   * Removes an item from the menu and also from the current order if it exists there.
+   * @param id The ID of the menu item to remove.
+   */
   const removeMenuItem = (id: string) => {
     setMenu((prev) => prev.filter((m) => m.id !== id));
     setOrder((prev) => prev.filter((m) => m.id !== id));
   };
 
+  // Adds a specified item to the order.
   const addToOrder = (item: MenuItem) => setOrder((prev) => [...prev, item]);
+  // Removes a specified item from the order. Note: This will remove all instances of an item if added multiple times.
   const removeFromOrder = (id: string) => setOrder((prev) => prev.filter((m) => m.id !== id));
+  // Clears all items from the current order.
   const clearOrder = () => setOrder([]);
 
+  // Provides the state and action functions to all children components.
   return (
     <MenuContext.Provider
       value={{

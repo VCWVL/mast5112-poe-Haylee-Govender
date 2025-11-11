@@ -16,12 +16,21 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { MenuContext } from '../context/MenuContext';
 
 
+// Hardcoded credentials for the owner/admin login.
 const OWNER_USERNAME = 'owner';
 const OWNER_PASSWORD = 'pass123';
 
+/**
+ * WelcomeScreen serves as the landing page of the application.
+ * It displays the restaurant's logo, an image, average menu prices,
+ * and a login form for users and the owner.
+ */
 const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
+  // Access menu data from the global context.
   const ctx = useContext(MenuContext);
 
+  // Calculate the average price for each course type using useMemo for optimization.
+  // This recalculates only when the menu data changes.
   const averagePrices = useMemo(() => {
     if (!ctx?.menu) {
       return { starter: 0, main: 0, dessert: 0, drink: 0 };
@@ -43,9 +52,15 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
     return averages;
   }, [ctx?.menu]);
 
+  // State for handling username and password inputs.
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  /**
+   * Handles the login process.
+   * Navigates to the owner's menu update screen on successful owner login,
+   * or to the regular menu screen for any other login attempt.
+   */
   const onLogin = () => {
     if (!username.trim() || !password.trim()) {
       Alert.alert('Login Failed', 'Please enter both username and password.');
@@ -58,11 +73,15 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
     }
   };
 
+  /**
+   * Navigates to the Help screen.
+   */
   const onHelp = () => {
     navigation?.navigate?.('Help');
   };
 
   return (
+    // Main background for the screen.
     <ImageBackground
       source={require('../assets/images/main_Background.jpg')}
       style={styles.bg}
@@ -73,13 +92,13 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView contentContainerStyle={styles.scrollContentContainer} showsVerticalScrollIndicator={false}>
-          {/* Logo */}
+          {/* Restaurant Logo */}
           <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode="stretch" />
 
-          {/* Steak image */}
+          {/* A featured image, e.g., a steak. */}
           <Image source={require('../assets/images/steak_home.jpg')} style={styles.steak} resizeMode="cover" />
 
-          {/* Average Prices */}
+          {/* Display container for average menu prices. */}
           <View style={styles.averagePricesContainer}>
             <Text style={styles.averagePricesTitle}>Average Menu Prices</Text>
             <View style={styles.priceRow}>
@@ -94,7 +113,7 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
 
 
 
-          {/* Login form */}
+          {/* Login form container. */}
           <View style={styles.formContainer}>
             <View style={styles.inputRow}>
               <Text style={styles.label}>Username:</Text>
@@ -122,7 +141,7 @@ const WelcomeScreen: React.FC<{ navigation?: any }> = ({ navigation }) => {
               <Text style={styles.loginText}>Confirm</Text>
             </TouchableOpacity>
             
-          {/* Help icon bottom-right */}
+          {/* Floating help button. */}
           <TouchableOpacity style={styles.helpBtn} onPress={onHelp}>
          <Entypo name="help-with-circle" size={22} color="white" />
           </TouchableOpacity>

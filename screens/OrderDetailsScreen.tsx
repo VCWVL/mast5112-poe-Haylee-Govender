@@ -6,21 +6,33 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 type Props = StackScreenProps<any, "OrderDetails">;
 
+/**
+ * OrderDetailsScreen displays the items the user has added to their order.
+ * It shows a list of items with their prices, the total cost, and a button
+ * to finalize and close the order.
+ */
 export default function OrderDetailsScreen({ navigation }: Props) {
+  // Access the menu context to get the current order and related functions.
   const ctx = useContext(MenuContext);
+  // Early return or error if the context is not available.
   if (!ctx) throw new Error("MenuContext missing");
 
+  // Calculate the total price of the order.
+  // useMemo ensures this calculation only runs when the order array changes.
   const total = useMemo(() => ctx.order.reduce((s, it) => s + it.price, 0), [ctx.order]);
 
   return (
+    // Main background for the screen.
     <ImageBackground
       source={require('../assets/images/main_Background.jpg')}
       style={styles.bg}
       resizeMode="cover"
     >
+      {/* Semi-transparent overlay for content readability. */}
       <View style={styles.container}>
         <Text style={styles.title}>Order Details</Text>
 
+        {/* List of items in the order. */}
         <FlatList
           data={ctx.order}
           keyExtractor={(it, idx) => `${it.id}-${idx}`}
@@ -33,11 +45,16 @@ export default function OrderDetailsScreen({ navigation }: Props) {
           )}
         />
 
+        {/* Section to display the total cost of the order. */}
         <View style={styles.totalRow}>
           <Text style={styles.totalText}>Total:</Text>
           <Text style={styles.totalText}>R{total.toFixed(2)}</Text>
         </View>
 
+        {/* Button to close the order.
+            This clears the order from the context and navigates the user
+            back to the Welcome screen.
+        */}
         <TouchableOpacity
           style={styles.closeButton}
           onPress={() => { ctx.clearOrder(); navigation.navigate("Welcome"); }}
