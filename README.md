@@ -180,6 +180,7 @@ It meets all academic, functional, and user experience requirements for this mod
 Through the use of React Native, TypeScript, and context-based data management, the application delivers a practical and professional demonstration of modern mobile application development practices.
 
 Changelog: 
+
 21 Oct 2025 - first commit - all the screens pushed to github.
 
 21 Oct 2025 - second commit - Changed colors,fixed icons,fixed layout.
@@ -190,6 +191,20 @@ Changelog:
 
 22 Oct 2025 - Changes to styles,colors - Edited OrderDetailsScreen,RemoveFromMenuScreen,ResetConfirmationScreen,AddToMenuScreen was edited.
 
+Changelog Poe : 
+
+10 Nov 2025 - Edited due to feedback to include references.
+
+10 Nov 2025 -
+
+10 Nov 2035 - 
+
+11 Nov 2025 - Added comments throughout code. 
+
+11 Nov 2025 - Edited styles for welcome screen.
+
+11 Nov 2025 - Added all references to sites which was used.
+
 Developed by: Haylee Govender
 
 Year: 2025
@@ -197,3 +212,39 @@ Year: 2025
 Module: MAST5112
 
 Institution: VC College
+
+References: 
+
+Developer,2025.Regular expressions [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions > [Accessed on the 22 Oct 2025].
+
+Docs.expo.dev,2025.Expo vector icons [online] Available at: <https://docs.expo.dev/guides/icons/> [Accessed on the 21 Oct 2025].
+
+reactnative,2025.Animated[online] Available at: <https://reactnative.dev/docs/animated> [Accessed on the 19 Oct 2025]. 
+
+reactnative,2025.Alert [online] Available at: < https://reactnative.dev/docs/alert >[Accessed on the 23 Oct 2025].
+
+react.dev,2025.createContext [online] Available at: <https://react.dev/reference/react/createContext > [Accessed on the 25 Oct 2025].
+
+reactnative,2025.Core Components and APIs[online] Available at: <https://reactnative.dev/docs/components-and-apis > [Accessed on the 17 Oct 2025]. 
+
+reactnative,2025.FlatList[online] Available at: <https://reactnative.dev/docs/flatlist > [Accessed on the 25 Oct 2025].
+
+// reactnative,2025.ImageBackground[online] Available at: <https://reactnative.dev/docs/imagebackground > [Accessed on the 24 Oct 2025].
+
+// reactnavigation,2025.NavigationContainer [online] Available at: <https://reactnavigation.org/docs/navigation-container/ > [Accessed on the 21 Oct 2025].
+
+reactnavigation,2025.Native Stack Navigator [online] Available at: < https://reactnavigation.org/docs/native-stack-navigator/ >[Accessed on the 20 Oct 2025].
+
+reactnative,2025.Style[online] Available at: <https://reactnative.dev/docs/style > [Accessed on the 22 Oct 2025]. 
+
+reactnative,2025.Text Input[online] Available at: <https://reactnative.dev/docs/textinput> [Accessed on the 25 Oct 2025]. 
+
+// reactnative,2025.TouchableOpacity[online] Available at: <https://reactnative.dev/docs/touchableopacity > [Accessed on the 20 Oct 2025].
+
+react.dev,2025.useContext [online] Available at: <https://react.dev/reference/react/useContext > [Accessed on the 22 Oct 2025].
+
+react.dev,2025.useState [online] Available at: <https://react.dev/reference/react/useState > [Accessed on the 22 Oct 2025].
+
+react.dev,2025.Using List View [online] Available at: <https://reactnative.dev/docs/using-a-listview > [Accessed on the 26 Oct 2025].
+
+// w3schools,2025.HTML Color Names[online] Available at: <https://www.w3schools.com/colors/colors_names.asp >[Accessed on the 23 Oct 2025].
