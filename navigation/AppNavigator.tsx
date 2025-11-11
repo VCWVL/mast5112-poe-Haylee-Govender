@@ -1,4 +1,12 @@
-// src/navigation/navigation.tsx
+//navigation/navigation.tsx
+//References 
+
+// react.dev,2025.createContext [online] Available at: <https://react.dev/reference/react/createContext > [Accessed on the 25 Oct 2025].
+
+// reactnavigation,2025.Native Stack Navigator [online] Available at: < https://reactnavigation.org/docs/native-stack-navigator/ >[Accessed on the 20 Oct 2025].
+
+// react.dev,2025.useContext [online] Available at: <https://react.dev/reference/react/useContext > [Accessed on the 22 Oct 2025].
+
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";

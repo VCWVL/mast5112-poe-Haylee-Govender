@@ -1,4 +1,22 @@
-// src/screens/OrderDetailsScreen.tsx
+//screens/OrderDetailsScreen.tsx
+//Refernces
+
+// reactnative,2025.Core Components and APIs[online] Available at: <https://reactnative.dev/docs/components-and-apis > [Accessed on the 17 Oct 2025].
+
+// reactnative,2025.FlatList[online] Available at: <https://reactnative.dev/docs/flatlist > [Accessed on the 25 Oct 2025].
+
+// reactnative,2025.ImageBackground[online] Available at: <https://reactnative.dev/docs/imagebackground > [Accessed on the 24 Oct 2025].
+
+// reactnavigation,2025.NavigationContainer [online] Available at: <https://reactnavigation.org/docs/navigation-container/ > [Accessed on the 21 Oct 2025].
+
+// reactnavigation,2025.Native Stack Navigator [online] Available at: < https://reactnavigation.org/docs/native-stack-navigator/ >[Accessed on the 20 Oct 2025].
+
+// reactnative,2025.Style[online] Available at: <https://reactnative.dev/docs/style > [Accessed on the 22 Oct 2025]
+
+// reactnative,2025.TouchableOpacity[online] Available at: <https://reactnative.dev/docs/touchableopacity > [Accessed on the 20 Oct 2025].
+
+// w3schools,2025.HTML Color Names[online] Available at: <https://www.w3schools.com/colors/colors_names.asp >[Accessed on the 23 Oct 2025].
+
 import React, { useContext, useMemo } from "react";
 import { View, Text, FlatList, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import { MenuContext } from "../context/MenuContext";

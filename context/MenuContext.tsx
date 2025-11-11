@@ -1,4 +1,4 @@
-// src/context/MenuContext.tsx
+//context/MenuContext.tsx
 import React, { createContext, useState, ReactNode } from "react";
 
 // Defines the possible course categories for a menu item.

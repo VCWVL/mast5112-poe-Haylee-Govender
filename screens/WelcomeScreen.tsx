@@ -1,3 +1,25 @@
+//References
+
+// Docs.expo.dev,2025.Expo vector icons [online] Available at: <https://docs.expo.dev/guides/icons/> [Accessed on the 21 Oct 2025].
+
+// reactnative,2025.Animated[online] Available at: <https://reactnative.dev/docs/animated> [Accessed on the 19 Oct 2025]. 
+
+// reactnative,2025.Core Components and APIs[online] Available at: <https://reactnative.dev/docs/components-and-apis > [Accessed on the 17 Oct 2025]. 
+
+// reactnative,2025.ImageBackground[online] Available at: <https://reactnative.dev/docs/imagebackground > [Accessed on the 24 Oct 2025].
+
+// reactnavigation,2025.NavigationContainer [online] Available at: <https://reactnavigation.org/docs/navigation-container/ > [Accessed on the 21 Oct 2025].
+
+// reactnavigation,2025.Native Stack Navigator [online] Available at: < https://reactnavigation.org/docs/native-stack-navigator/ >[Accessed on the 20 Oct 2025]. 
+
+// reactnative,2025.Style[online] Available at: <https://reactnative.dev/docs/style > [Accessed on the 22 Oct 2025]. 
+
+// reactnative,2025.Text Input[online] Available at: <https://reactnative.dev/docs/textinput> [Accessed on the 25 Oct 2025]. 
+
+// reactnative,2025.TouchableOpacity[online] Available at: <https://reactnative.dev/docs/touchableopacity > [Accessed on the 20 Oct 2025].
+
+// w3schools,2025.HTML Color Names[online] Available at: <https://www.w3schools.com/colors/colors_names.asp >[Accessed on the 23 Oct 2025].
+
 import React, { useState, useContext, useMemo, useRef, useEffect } from 'react';
 import {
   View,

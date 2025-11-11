@@ -1,4 +1,25 @@
-// src/screens/FilterScreen.tsx
+//screens/FilterScreen.tsx
+//References 
+// Docs.expo.dev,2025.Expo vector icons [online] Available at: https://docs.expo.dev/guides/icons/ [Accessed on the 21 Oct 2025].
+
+// react.dev,2025.Built-in React Hooks [online] Available at: <https://react.dev/reference/react/hooks > [Accessed on the 23 Oct 2025].
+
+// reactnative,2025.Core Components and APIs[online] Available at: <https://reactnative.dev/docs/components-and-apis > [Accessed on the 17 Oct 2025].
+
+// reactnative,2025.ImageBackground[online] Available at: <https://reactnative.dev/docs/imagebackground > [Accessed on the 24 Oct 2025].
+
+// reactnavigation,2025.NavigationContainer [online] Available at: <https://reactnavigation.org/docs/navigation-container/ > [Accessed on the 21 Oct 2025].
+
+// reactnavigation,2025.Native Stack Navigator [online] Available at: < https://reactnavigation.org/docs/native-stack-navigator/ >[Accessed on the 20 Oct 2025].
+
+// react.dev,2025.useState [online] Available at: <https://react.dev/reference/react/useState > [Accessed on the 22 Oct 2025].
+
+// react.dev,2025.Using List View [online] Available at: <https://reactnative.dev/docs/using-a-listview > [Accessed on the 26 Oct 2025].
+
+// reactnative,2025.TouchableOpacity[online] Available at: <https://reactnative.dev/docs/touchableopacity > [Accessed on the 20 Oct 2025].
+
+// w3schools,2025.HTML Color Names[online] Available at: <https://www.w3schools.com/colors/colors_names.asp >[Accessed on the 23 Oct 2025].
+
 import React, { useState, useContext, useMemo } from "react";
 import { View, Text, FlatList, Image, TouchableOpacity, Button, StyleSheet,ImageBackground } from "react-native";
 import { Picker } from "@react-native-picker/picker";

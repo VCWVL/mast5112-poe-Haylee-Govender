@@ -1,4 +1,24 @@
-// src/screens/HelpScreen.tsx
+//screens/HelpScreen.tsx
+//References
+
+// Developer,2025.Regular expressions [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions > [Accessed on the 22 Oct 2025].
+
+// reactnative,2025.Alert [online] Available at: < https://reactnative.dev/docs/alert >[Accessed on the 23 Oct 2025].
+
+// reactnative,2025.Core Components and APIs[online] Available at: <https://reactnative.dev/docs/components-and-apis > [Accessed on the 17 Oct 2025].
+
+// reactnative,2025.ImageBackground[online] Available at: <https://reactnative.dev/docs/imagebackground > [Accessed on the 24 Oct 2025].
+
+// reactnavigation,2025.NavigationContainer [online] Available at: <https://reactnavigation.org/docs/navigation-container/ > [Accessed on the 21 Oct 2025].
+
+// reactnavigation,2025.Native Stack Navigator [online] Available at: < https://reactnavigation.org/docs/native-stack-navigator/ >[Accessed on the 20 Oct 2025].
+
+// reactnative,2025.Style[online] Available at: <https://reactnative.dev/docs/style > [Accessed on the 22 Oct 2025].
+
+// reactnative,2025.TouchableOpacity[online] Available at: <https://reactnative.dev/docs/touchableopacity > [Accessed on the 20 Oct 2025].
+
+// w3schools,2025.HTML Color Names[online] Available at: <https://www.w3schools.com/colors/colors_names.asp >[Accessed on the 23 Oct 2025].
+
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert,ImageBackground, TouchableOpacity } from "react-native";
 import Entypo from '@expo/vector-icons/Entypo';
